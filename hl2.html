@@ -1,0 +1,77 @@
+<html>
+<canvas id="Canvas" width="800" height="600">
+</canvas>
+
+<head>
+	<title>Decay</title>
+</head>
+
+<script>
+var canvas;  
+var canvasContext;
+var spaceW = 30;
+var spaceH = 30;
+var decay = [];
+var i = 0;
+var num = 0;
+var hl = 0;
+
+window.onload = function() {
+	isotopes(0);
+	setInterval(isotopes, 500);
+}
+
+function background() {
+	canvas = document.getElementById('Canvas');
+	canvasContext = canvas.getContext('2d')
+	canvasContext.fillStyle = 'black';
+	canvasContext.fillRect(0,0,canvas.width,canvas.height);
+}
+
+function isotopes(x) {
+	background();
+	i = 0;
+	hl += 1;
+	for (spaceH = 30; spaceH < canvas.height - 10; spaceH += 11) {
+		for (spaceW = 30; spaceW < canvas.width - 10; spaceW += 11) {
+			if (x == 0) {
+				decay[i] = 1;
+			}
+			if (decay[i] == 2) {
+				var rnd2 = Math.ceil(Math.random() * 100);
+				if (rnd2 == 1) {
+					decay[i] = 3;
+				}
+			}
+			if (decay[i] == 1) {
+				var rnd = Math.ceil(Math.random() * 100);
+				if (rnd == 1) {
+					decay[i] = 2;
+				}
+			}
+			
+			switch(decay[i]) {
+				case 1:
+					canvasContext.fillStyle = 'green';
+					break;
+				case 2:
+					canvasContext.fillStyle = 'red';
+					break;
+				case 3:
+					canvasContext.fillStyle = 'blue';
+			}
+			if (x == 0) {
+				canvasContext.fillStyle = 'green';
+				decay[i] = 1;
+			}
+			canvasContext.beginPath();
+			canvasContext.arc(spaceW,spaceH,5,0,Math.PI*2,true);
+			canvasContext.fill();
+			i += 1;
+		} 
+	}
+}
+	
+</script>
+
+</html>

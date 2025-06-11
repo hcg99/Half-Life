@@ -1,0 +1,72 @@
+<html>
+<canvas id="Canvas" width="800" height="600">
+</canvas>
+
+<script>
+var canvas;  
+var canvasContext;
+var spaceW = 30;
+var spaceH = 30;
+var decay = [];
+var c = 0;
+var num = 0;
+var hl = 0;
+// time in ms between possible decays. Smaller the interval the more realistic as time is continuous in real life.
+var t_interval = 100;
+// prob. of decay in one second 
+var p_second = 1/10;
+// prob. of decay in t_interval
+var p = 1 - (1 - p_second)**(t_interval/1000);
+
+
+window.onload = function() {
+	background()	
+	isotopes1()
+	setInterval(function() {isotopes()}, t_interval);
+}
+
+function background() {
+	//Draws black background
+	canvas = document.getElementById('Canvas');
+	canvasContext = canvas.getContext('2d')
+	canvasContext.fillStyle = 'black';
+	canvasContext.fillRect(0,0,canvas.width,canvas.height);
+}
+
+function isotopes() {
+	c = 0;
+	hl += 1;
+	for (spaceH = 30; spaceH < canvas.height - 10; spaceH += 11) {
+		for (spaceW = 30; spaceW < canvas.width - 10; spaceW += 11) {
+			var rnd = Math.floor((Math.random() * 1/p) + 1);
+			if (rnd == 1) {
+				decay[c] = 2;
+				//num += 1;
+			}
+			if (decay[c] == 2) {
+				canvasContext.beginPath();
+				canvasContext.arc(spaceW,spaceH,5,0,Math.PI*2,true);
+				canvasContext.fill();
+			}
+			c += 1;
+		} 
+	}
+}
+
+function isotopes1() {
+// Draws unstable isotopes 
+	canvasContext.fillStyle = 'orange';
+	for (spaceH = 30; spaceH < canvas.height - 10; spaceH += 11) {
+		for (spaceW = 30; spaceW < canvas.width - 10; spaceW += 11) {
+			canvasContext.beginPath();
+			canvasContext.arc(spaceW,spaceH,5,0,Math.PI*2,true);
+			canvasContext.fill();
+				
+		} 
+	}
+	canvasContext.fillStyle = 'white';
+}
+
+</script>
+
+</html>
